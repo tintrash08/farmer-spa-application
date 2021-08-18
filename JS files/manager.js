@@ -20,6 +20,14 @@ controller : 'FertilizersController'
 
 })
 
+.when('/weather', {
+
+    templateUrl : 'weather.html',
+    
+    controller : 'WeatherController'
+    
+    })
+
 .when('/policy', {
 
 templateUrl : 'policy.html',
@@ -42,18 +50,26 @@ controller : 'PolicyController'
 
 app.controller('HomeController', function($scope) {
 
-$scope.message = 'Hello from HomeController';
-$scope.refText = "HomeRef";
+    $scope.message = 'Hello from HomeController';
+    $scope.refText = "HomeRef";
 });
 
 app.controller('FertilizersController', function($scope) {
 
-$scope.message = 'Hello from BlogController';
-$scope.refText = "BlogRef";
+    $scope.message = 'Hello from BlogController';
+    $scope.refText = "BlogRef";
+});
+
+app.controller('WeatherController', function($scope) {
+
+    $scope.message = 'Hello from WeatherController';
+    $scope.refText = "WeatherRef";
 });
 
 app.controller('PolicyController', function($scope) {
 
-$scope.message = 'Hello from AboutController';
-$scope.refText = "AboutRef";
+    $scope.message = 'Hello from PolicyController';
+    $scope.refText = "PolicyRef";
 });
+
+
