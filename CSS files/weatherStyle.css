@@ -21,9 +21,13 @@ input.search-bar {
     justify-content: center;
     border: none;
     outline: none;
-    padding: 0.75em;
-    border-radius: 18px;
+    padding: 0.5em 1em;
+    border-radius: 22px;
     background: #7c7c7c4c;
+    color: white;
+    font-family: inherit;
+    font-size: 100%;
+    width: 75%;
 }
 button.search-button {
     align-items: center;
@@ -34,5 +38,27 @@ button.search-button {
     width: 2.75em;
     border: none;
     outline: none;
+    background: #7c7c7c4c;
+    color: white;
+}
+button.search-button:hover{
+    background: #7c7c7cbc;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+h2.city {
+    margin: 0.5em 0 0.5em;
+}
+.flex{
+    display: flex;
+    align-items: center;
+    margin: -0.5em;
+}
+.description {
+    text-transform: capitalize;
+}
+h1.temp {
+    margin: 0em 0em 0.3em;
 }
 
