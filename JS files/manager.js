@@ -1,23 +1,25 @@
 hell="hello";
 var app = angular.module('myApp', ['ngRoute']);
 
+
+
 app.config(function($routeProvider) {
 
 $routeProvider
 
 .when('/', {
 
-templateUrl : 'home.html',
+    templateUrl : 'home.html',
 
-controller : 'HomeController'
+    controller : 'HomeController'
 
 })
 
 .when('/fertilizers', {
 
-templateUrl : 'fertilizers.html',
+    templateUrl : 'fertilizers.html',
 
-controller : 'FertilizersController'
+    controller : 'FertilizersController'
 
 })
 
@@ -27,13 +29,21 @@ controller : 'FertilizersController'
     
     controller : 'WeatherController'
     
-    })
+})
+
+.when('/apmc', {
+
+    templateUrl : 'apmc.html',
+    
+    controller : 'APMCController'
+    
+})
 
 .when('/policy', {
 
-templateUrl : 'policy.html',
+    templateUrl : 'policy.html',
 
-controller : 'PolicyController'
+    controller : 'PolicyController'
 
 })
 
@@ -90,6 +100,70 @@ app.controller('WeatherController', function($scope) {
     $scope.search = function(){
         this.fetchWeather(document.getElementById("search-bar").value);
     };
+});
+
+app.controller('APMCController', function($scope) {
+
+    $scope.message = 'Hello from APMCController';
+    $scope.refText = "APMCRef";
+    $scope.apiKey = "579b464db66ec23bdd00000191e75c4a327d4077602b864dd5b10cdb";
+    
+    
+
+    $scope.fetchRates = function(state, district, commodity){
+            fetch(
+                "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key="+this.apiKey+"&format=json&offset=0&limit=1&filters[state]="+state+"&filters[district]="+district+"&filters[commodity]="+commodity
+            ).then((response)=>response.json())
+            .then((data)=>this.displayRates(data));
+        };
+
+    $scope.displayRates = function(data){
+            const{count} = data;
+            if(count>=1){
+                document.querySelector(".notFound").innerText="";
+                const {state} = data.records[0];
+                const {district} = data.records[0];
+                const {market} = data.records[0];
+                const {commodity} = data.records[0];
+                const {min_price} = data.records[0];
+                const {max_price} = data.records[0];
+                const {modal_price} = data.records[0];
+                document.querySelector(".state").innerText = "State: "+state;
+                document.querySelector(".district").innerText = "District: "+district;
+                document.querySelector(".market").innerText = "Market: "+market;
+                document.querySelector(".commodity").innerText = "Commodity: "+commodity;
+                document.querySelector(".min_price").innerHTML = "<b>Minimum Price</b> ₹"+min_price+"/Quintal";
+                document.querySelector(".max_price").innerHTML = "<b>Maximum Price</b> ₹"+max_price+"/Quintal";
+                document.querySelector(".modal_price").innerHTML = "<b>Modal Price</b> ₹"+modal_price+"/Quintal";
+            }
+            else{
+                document.querySelector(".notFound").innerText="Records not found.\n There are multiple reasons for that: \n1) The commodity is not available in this location\n2) The records haven't been updated.\nTry again after some time.";
+                document.querySelector(".state").innerText = "";
+                document.querySelector(".district").innerText = "";
+                document.querySelector(".market").innerText = "";
+                document.querySelector(".commodity").innerText = "";
+                document.querySelector(".min_price").innerText = "";
+                document.querySelector(".max_price").innerText = "";
+                document.querySelector(".modal_price").innerText = "";
+            }
+            
+        };
+    
+    $scope.search = function(){
+        stateElement = document.getElementById("stateList");
+        var state = stateElement.options[stateElement.selectedIndex].text;
+        console.log("hello "+state);
+        districtElement = document.getElementById("districtList");
+        var district = districtElement.options[districtElement.selectedIndex].text;
+        console.log("hello "+district);
+        commodityElement = document.getElementById("commodityList");
+        var commodity = commodityElement.options[commodityElement.selectedIndex].text;
+        console.log("hello "+commodity);
+        this.fetchRates(state,district,commodity);
+        
+    };
+
+
 });
 
 app.controller('PolicyController', function($scope) {
